@@ -4,5 +4,5 @@ A facade library that provides encapsulation of the basic S3 functionality requi
 ## usage
 ```toml
 [dependencies]
-sss = { git = "https://github.com/layerkv/sss" }
+sss = { git = "https://github.com/layerkv/sss" tag = "v0.1" }
 ```
