@@ -2,10 +2,12 @@ use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use std::{collections::HashMap, error, fmt, path::Path};
 
+pub type SSSMeta = HashMap<String, String>;
+
 /// A trait encapsulating the operations required of LayerKV.
 #[async_trait]
-pub trait SSSFacade: Sync + Send {
-    async fn init() -> Self;
+pub trait SSSFacade: Sync + Send + Sized {
+    async fn init(access: &SSSAccess, region: &str, bucket: &str) -> Result<Self, SSSErr>;
     async fn upload(
         &self,
         key: &str,
@@ -14,7 +16,13 @@ pub trait SSSFacade: Sync + Send {
     ) -> Result<bool, SSSErr>;
     async fn delete(&self, key: &str) -> Result<bool, SSSErr>;
     async fn download(&self, key: &str, save_path: &Path) -> Result<bool, SSSErr>;
-    async fn head<'a>(&self, key: &str) -> Result<SSSHead, SSSErr>;
+    async fn head(&self, key: &str) -> Result<SSSHead, SSSErr>;
+}
+
+#[derive(Debug)]
+pub struct SSSAccess {
+    pub access_id: String,
+    pub access_secret: String,
 }
 
 #[derive(Debug)]
