@@ -12,7 +12,7 @@ pub trait SSSFacade: Sync + Send + Sized {
         &self,
         key: &str,
         file_path: &Path,
-        meta: Option<HashMap<String, String>>,
+        meta: Option<SSSMeta>,
     ) -> Result<bool, SSSErr>;
     async fn delete(&self, key: &str) -> Result<bool, SSSErr>;
     async fn download(&self, key: &str, save_path: &Path) -> Result<bool, SSSErr>;
